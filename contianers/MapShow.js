@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-//import { Map, GoogleApiWrapper,Marker } from "google-maps-react";
 import { GoogleMap, useJsApiLoader,Marker } from '@react-google-maps/api';
 
 const API_KEY = "AIzaSyB594lJbll1jKx_ZXrtGDjMgkUtSFd3T-Q";
