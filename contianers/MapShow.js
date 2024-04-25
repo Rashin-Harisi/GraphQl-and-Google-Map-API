@@ -1,19 +1,33 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Map, GoogleApiWrapper,Marker } from "google-maps-react";
-
+import React, { useCallback, useEffect, useState } from "react";
+//import { Map, GoogleApiWrapper,Marker } from "google-maps-react";
+import { GoogleMap, useJsApiLoader,Marker } from '@react-google-maps/api';
 
 const API_KEY = "AIzaSyB594lJbll1jKx_ZXrtGDjMgkUtSFd3T-Q";
 const mapStyles = {
-  width: "75%",
-  height: "50%",
+  width: "98%",
+  height: "100%",
 };
 
 const MapShow = ({ capital }) => {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+  const [map, setMap]= useState(null)
     //console.log('lat&lng',lat,lng)
+  const center= {lat: Number(lat),lng: Number(lng)}
+
+    const { isLoaded } = useJsApiLoader({
+      id: 'google-map-script',
+      googleMapsApiKey: API_KEY
+    })
+    
+    const onLoad = useCallback((map)=>{
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
+      setMap(map)
+    },[])
+    const onUnmount = useCallback((map)=>{setMap(null)},[])
 
   const LatandLng = async () => {
     try {
@@ -34,16 +48,14 @@ const MapShow = ({ capital }) => {
 
 
   return (
-    <Map
-      google={window.google}
-      zoom={1}
-      style={mapStyles}
-      initialCenter={{
-        lat: lat, 
-        lng: lng,
-      }}
+    isLoaded ? <GoogleMap
+      mapContainerStyle={mapStyles}
+      center={center}
+      zoom={3}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
     >
-        <Marker
+      <Marker
               position={
                   {
                       lat: lat, 
@@ -51,10 +63,11 @@ const MapShow = ({ capital }) => {
                   }
               }
             />
-    </Map>
+    </GoogleMap>  : <></> 
+    
+        
+    
   );
 };
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyB594lJbll1jKx_ZXrtGDjMgkUtSFd3T-Q",
-})(MapShow);
+export default MapShow;

@@ -12,6 +12,7 @@
     "@apollo/client": "^3.9.11",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.4",
+    "@react-google-maps/api": "^2.19.3",
     "google-maps-react": "^2.0.6",
     "graphql": "^16.8.1",
     "lottie-react": "^2.4.0",
